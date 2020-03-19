@@ -205,9 +205,13 @@ module UPS
       def initialize_xml_roots(root_name)
         self.document = Document.new
         self.root = Element.new(root_name)
-        self.shipment_root = Element.new('Shipment')
         self.access_request = Element.new('AccessRequest')
-        root << shipment_root
+        add_shipment_root(root_name) if root_name != 'TrackRequest'
+      end
+
+      def add_shipment_root(root_name)
+        self.shipment_root = Element.new('Shipment')
+        root << shipment_root unless root_name == 'TrackRequest'
       end
 
       def shipment_service_options
